@@ -63,7 +63,7 @@ if ! aws sts get-caller-identity &> /dev/null; then
 fi
 
 # Set variables
-POOL_NAME="MyCognitoPool"
+POOL_NAME="PublicClientPool"
 DOMAIN_PREFIX="my-api-domain-$(date +%s)"
 APP_CLIENT_NAME="MyApiClient"
 TEST_USERNAME="testuser@example.com"
@@ -90,29 +90,28 @@ aws cognito-idp create-user-pool-domain \
     --user-pool-id "$POOL_ID"
 
 # Create App Client
-echo "Creating App Client..."
+echo "Creating Public App Client..."
 CLIENT_INFO=$(aws cognito-idp create-user-pool-client \
     --user-pool-id "$POOL_ID" \
     --client-name "$APP_CLIENT_NAME" \
-    --generate-secret \
-    --allowed-o-auth-flows "code" "implicit" \
-    --allowed-o-auth-scopes "email" "openid" \
-    --allowed-o-auth-flows-user-pool-client \
+    --no-generate-secret \
+    --explicit-auth-flows ALLOW_CUSTOM_AUTH ALLOW_USER_SRP_AUTH ALLOW_REFRESH_TOKEN_AUTH \
     --supported-identity-providers COGNITO \
     --callback-urls '["https://oauth.pstmn.io/v1/browser-callback"]' \
-    --logout-urls '["http://localhost"]' \
+    --allowed-o-auth-flows "code" \
+    --allowed-o-auth-scopes "email" "openid" \
+    --allowed-o-auth-flows-user-pool-client \
+    --prevent-user-existence-errors ENABLED \
     --output json)
 
 CLIENT_ID=$(echo "$CLIENT_INFO" | jq -r '.UserPoolClient.ClientId')
-CLIENT_SECRET=$(echo "$CLIENT_INFO" | jq -r '.UserPoolClient.ClientSecret')
-
 DOMAIN="https://${DOMAIN_PREFIX}.auth.${REGION}.amazoncognito.com"
 
-# Generate Postman Collection with the format that works
+# Generate Postman Collection
 cat > "$OUTPUT_FILE" << EOF
 {
     "info": {
-        "name": "Cognito Protected API",
+        "name": "Cognito Protected API (Public Client)",
         "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
     },
     "item": [
@@ -148,18 +147,18 @@ cat > "$OUTPUT_FILE" << EOF
                             "type": "string"
                         },
                         {
-                            "key": "clientSecret",
-                            "value": "${CLIENT_SECRET}",
+                            "key": "usePkce",
+                            "value": true,
+                            "type": "boolean"
+                        },
+                        {
+                            "key": "client_authentication",
+                            "value": "body",
                             "type": "string"
                         },
                         {
                             "key": "scope",
                             "value": "email openid",
-                            "type": "string"
-                        },
-                        {
-                            "key": "client_authentication",
-                            "value": "header",
                             "type": "string"
                         }
                     ]
@@ -208,7 +207,6 @@ echo "---------------------"
 echo "User Pool ID: $POOL_ID"
 echo "Domain: $DOMAIN"
 echo "App Client ID: $CLIENT_ID"
-echo "Client Secret: $CLIENT_SECRET"
 echo ""
 echo "Test User Credentials:"
 echo "---------------------"
@@ -217,11 +215,9 @@ echo "Password: $TEST_PASSWORD"
 echo ""
 echo "Instructions:"
 echo "1. Import the generated $OUTPUT_FILE into Postman"
-echo "2. OAuth 2.0 settings:"
-echo "   - Callback URL: https://oauth.pstmn.io/v1/browser-callback"
-echo "   - Access Token URL: ${DOMAIN}/oauth2/token"
-echo "   - Client ID: $CLIENT_ID"
-echo "   - Client Secret: $CLIENT_SECRET"
+echo "2. OAuth 2.0 settings are pre-configured in the collection"
 echo "3. Click 'Get New Access Token' in the Authorization tab"
 echo "4. Log in with the test user credentials when prompted"
 echo "5. Click 'Use Token' after obtaining it"
+echo ""
+echo "Note: This setup uses Authorization Code with PKCE for enhanced security"

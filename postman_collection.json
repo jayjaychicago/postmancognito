@@ -1,0 +1,72 @@
+{
+    "info": {
+        "name": "Cognito Protected API (Public Client)",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "Get Cat Fact",
+            "request": {
+                "auth": {
+                    "type": "oauth2",
+                    "oauth2": [
+                        {
+                            "key": "grant_type",
+                            "value": "authorization_code",
+                            "type": "string"
+                        },
+                        {
+                            "key": "redirect_uri",
+                            "value": "https://oauth.pstmn.io/v1/browser-callback",
+                            "type": "string"
+                        },
+                        {
+                            "key": "authUrl",
+                            "value": "https://my-api-domain-1734220276.auth.us-east-2.amazoncognito.com/oauth2/authorize",
+                            "type": "string"
+                        },
+                        {
+                            "key": "accessTokenUrl",
+                            "value": "https://my-api-domain-1734220276.auth.us-east-2.amazoncognito.com/oauth2/token",
+                            "type": "string"
+                        },
+                        {
+                            "key": "clientId",
+                            "value": "4to4i8bnr6ks4phubsttph04pt",
+                            "type": "string"
+                        },
+                        {
+                            "key": "usePkce",
+                            "value": true,
+                            "type": "boolean"
+                        },
+                        {
+                            "key": "client_authentication",
+                            "value": "body",
+                            "type": "string"
+                        },
+                        {
+                            "key": "scope",
+                            "value": "email openid",
+                            "type": "string"
+                        }
+                    ]
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "https://catfact.ninja/fact",
+                    "protocol": "https",
+                    "host": [
+                        "catfact",
+                        "ninja"
+                    ],
+                    "path": [
+                        "fact"
+                    ]
+                }
+            },
+            "response": []
+        }
+    ]
+}
