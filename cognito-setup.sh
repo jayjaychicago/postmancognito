@@ -36,7 +36,7 @@ echo "Checking required dependencies..."
 MISSING_DEPS=0
 
 if ! check_command "aws"; then
-    echo "aws CLI is missing"
+    echo "AWS CLI is missing"
     MISSING_DEPS=1
 fi
 
@@ -74,7 +74,7 @@ OUTPUT_FILE="postman_collection.json"
 # Create Cognito User Pool
 echo "Creating Cognito User Pool..."
 POOL_ID=$(aws cognito-idp create-user-pool \
-    --pool-name $POOL_NAME \
+    --pool-name "$POOL_NAME" \
     --policies '{"PasswordPolicy":{"MinimumLength":8,"RequireUppercase":true,"RequireLowercase":true,"RequireNumbers":true,"RequireSymbols":true}}' \
     --schema '[{"Name":"email","Required":true,"Mutable":true}]' \
     --auto-verified-attributes email \
@@ -86,14 +86,14 @@ echo "User Pool ID: $POOL_ID"
 # Create Domain
 echo "Creating Cognito Domain..."
 aws cognito-idp create-user-pool-domain \
-    --domain $DOMAIN_PREFIX \
-    --user-pool-id $POOL_ID
+    --domain "$DOMAIN_PREFIX" \
+    --user-pool-id "$POOL_ID"
 
 # Create App Client
 echo "Creating App Client..."
 CLIENT_INFO=$(aws cognito-idp create-user-pool-client \
-    --user-pool-id $POOL_ID \
-    --client-name $APP_CLIENT_NAME \
+    --user-pool-id "$POOL_ID" \
+    --client-name "$APP_CLIENT_NAME" \
     --generate-secret \
     --allowed-o-auth-flows "code" "implicit" \
     --allowed-o-auth-scopes "email" "openid" \
@@ -103,13 +103,13 @@ CLIENT_INFO=$(aws cognito-idp create-user-pool-client \
     --logout-urls '["http://localhost"]' \
     --output json)
 
-CLIENT_ID=$(echo $CLIENT_INFO | jq -r '.UserPoolClient.ClientId')
-CLIENT_SECRET=$(echo $CLIENT_INFO | jq -r '.UserPoolClient.ClientSecret')
+CLIENT_ID=$(echo "$CLIENT_INFO" | jq -r '.UserPoolClient.ClientId')
+CLIENT_SECRET=$(echo "$CLIENT_INFO" | jq -r '.UserPoolClient.ClientSecret')
 
 DOMAIN="https://${DOMAIN_PREFIX}.auth.${REGION}.amazoncognito.com"
 
 # Generate Postman Collection with the format that works
-cat > $OUTPUT_FILE << EOF
+cat > "$OUTPUT_FILE" << EOF
 {
     "info": {
         "name": "Cognito Protected API",
@@ -161,21 +161,6 @@ cat > $OUTPUT_FILE << EOF
                             "key": "client_authentication",
                             "value": "header",
                             "type": "string"
-                        },
-                        {
-                            "key": "addTokenTo",
-                            "value": "header",
-                            "type": "string"
-                        },
-                        {
-                            "key": "state",
-                            "value": "",
-                            "type": "string"
-                        },
-                        {
-                            "key": "useBrowser",
-                            "value": true,
-                            "type": "boolean"
                         }
                     ]
                 },
@@ -202,18 +187,19 @@ EOF
 # Create test user
 echo "Creating test user..."
 aws cognito-idp admin-create-user \
-    --user-pool-id $POOL_ID \
-    --username $TEST_USERNAME \
-    --temporary-password $TEST_PASSWORD \
+    --user-pool-id "$POOL_ID" \
+    --username "$TEST_USERNAME" \
+    --temporary-password "$TEST_PASSWORD" \
     --message-action SUPPRESS
 
 # Set permanent password for test user
 aws cognito-idp admin-set-user-password \
-    --user-pool-id $POOL_ID \
-    --username $TEST_USERNAME \
-    --password $TEST_PASSWORD \
+    --user-pool-id "$POOL_ID" \
+    --username "$TEST_USERNAME" \
+    --password "$TEST_PASSWORD" \
     --permanent
 
+# Output configuration details
 echo ""
 echo "Setup complete! Here are your OAuth 2.0 settings:"
 echo ""
@@ -231,7 +217,11 @@ echo "Password: $TEST_PASSWORD"
 echo ""
 echo "Instructions:"
 echo "1. Import the generated $OUTPUT_FILE into Postman"
-echo "2. The OAuth2 settings will be pre-filled automatically"
+echo "2. OAuth 2.0 settings:"
+echo "   - Callback URL: https://oauth.pstmn.io/v1/browser-callback"
+echo "   - Access Token URL: ${DOMAIN}/oauth2/token"
+echo "   - Client ID: $CLIENT_ID"
+echo "   - Client Secret: $CLIENT_SECRET"
 echo "3. Click 'Get New Access Token' in the Authorization tab"
 echo "4. Log in with the test user credentials when prompted"
 echo "5. Click 'Use Token' after obtaining it"
