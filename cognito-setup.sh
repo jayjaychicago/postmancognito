@@ -68,7 +68,7 @@ DOMAIN_PREFIX="my-api-domain-$(date +%s)"
 APP_CLIENT_NAME="MyApiClient"
 TEST_USERNAME="testuser@example.com"
 TEST_PASSWORD="TestPassword123!"
-REGION="eu-north-1"
+REGION="us-east-1"
 OUTPUT_FILE="postman_collection.json"
 
 # Create Cognito User Pool

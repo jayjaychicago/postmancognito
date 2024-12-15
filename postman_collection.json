@@ -27,17 +27,17 @@
                         },
                         {
                             "key": "authUrl",
-                            "value": "https://my-api-domain-1734278812.auth.eu-north-1.amazoncognito.com/oauth2/authorize",
+                            "value": "https://my-api-domain-1734279248.auth.us-east-2.amazoncognito.com/oauth2/authorize",
                             "type": "string"
                         },
                         {
                             "key": "accessTokenUrl",
-                            "value": "https://my-api-domain-1734278812.auth.eu-north-1.amazoncognito.com/oauth2/token",
+                            "value": "https://my-api-domain-1734279248.auth.us-east-2.amazoncognito.com/oauth2/token",
                             "type": "string"
                         },
                         {
                             "key": "clientId",
-                            "value": "5613sqdcd51glra6fqlgfg23ik",
+                            "value": "1kvl5662vntrfdfhn26i0sp6s9",
                             "type": "string"
                         },
                         {
@@ -70,7 +70,7 @@
                             "value": [
                                 {
                                     "key": "client_id",
-                                    "value": "5613sqdcd51glra6fqlgfg23ik",
+                                    "value": "1kvl5662vntrfdfhn26i0sp6s9",
                                         "enabled": true,
                                         "send_as": "request_body"
                                 }
