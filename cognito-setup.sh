@@ -178,6 +178,18 @@ cat > "$OUTPUT_FILE" << EOF
                             "key": "scope",
                             "value": "email openid",
                             "type": "string"
+                        },
+                        {
+                            "key": "refreshRequestParams",
+                            "value": [
+                                {
+                                    "key": "client_id",
+                                    "value": "${CLIENT_ID}",
+                                        "enabled": true,
+                                        "send_as": "request_body"
+                                }
+                            ],
+                            "type": "string"
                         }
                     ]
                 },
