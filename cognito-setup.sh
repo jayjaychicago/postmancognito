@@ -122,38 +122,28 @@ cat > "$OUTPUT_FILE" << EOF
                     "type": "oauth2",
                     "oauth2": [
                         {
-                            "key": "grant_type",
-                            "value": "authorization_code",
-                            "type": "string"
-                        },
-                        {
-                            "key": "redirect_uri",
+                            "key": "redirect_uri", 
                             "value": "https://oauth.pstmn.io/v1/browser-callback",
                             "type": "string"
                         },
                         {
-                            "key": "authUrl",
+                            "key": "grant_type",
+                            "value": "authorization_code_with_pkce",
+                            "type": "string"
+                        },
+                        {
+                            "key": "auth_url",
                             "value": "${DOMAIN}/oauth2/authorize",
                             "type": "string"
                         },
                         {
-                            "key": "accessTokenUrl",
+                            "key": "access_token_url",
                             "value": "${DOMAIN}/oauth2/token",
                             "type": "string"
                         },
                         {
-                            "key": "clientId",
+                            "key": "client_id",
                             "value": "${CLIENT_ID}",
-                            "type": "string"
-                        },
-                        {
-                            "key": "usePkce",
-                            "value": true,
-                            "type": "boolean"
-                        },
-                        {
-                            "key": "client_authentication",
-                            "value": "body",
                             "type": "string"
                         },
                         {
