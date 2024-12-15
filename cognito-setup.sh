@@ -68,12 +68,13 @@ DOMAIN_PREFIX="my-api-domain-$(date +%s)"
 APP_CLIENT_NAME="MyApiClient"
 TEST_USERNAME="testuser@example.com"
 TEST_PASSWORD="TestPassword123!"
-REGION="us-east-2"
+REGION="eu-north-1"
 OUTPUT_FILE="postman_collection.json"
 
 # Create Cognito User Pool
 echo "Creating Cognito User Pool..."
 POOL_ID=$(aws cognito-idp create-user-pool \
+    --region "$REGION" \
     --pool-name "$POOL_NAME" \
     --policies '{"PasswordPolicy":{"MinimumLength":8,"RequireUppercase":true,"RequireLowercase":true,"RequireNumbers":true,"RequireSymbols":true}}' \
     --schema '[{"Name":"email","Required":true,"Mutable":true}]' \
@@ -86,12 +87,14 @@ echo "User Pool ID: $POOL_ID"
 # Create Domain
 echo "Creating Cognito Domain..."
 aws cognito-idp create-user-pool-domain \
+    --region "$REGION" \
     --domain "$DOMAIN_PREFIX" \
     --user-pool-id "$POOL_ID"
 
 # Create App Client
 echo "Creating Public App Client..."
 CLIENT_INFO=$(aws cognito-idp create-user-pool-client \
+    --region "$REGION" \
     --user-pool-id "$POOL_ID" \
     --client-name "$APP_CLIENT_NAME" \
     --no-generate-secret \
@@ -204,6 +207,7 @@ EOF
 # Create test user
 echo "Creating test user..."
 aws cognito-idp admin-create-user \
+    --region "$REGION" \
     --user-pool-id "$POOL_ID" \
     --username "$TEST_USERNAME" \
     --temporary-password "$TEST_PASSWORD" \
@@ -211,6 +215,7 @@ aws cognito-idp admin-create-user \
 
 # Set permanent password for test user
 aws cognito-idp admin-set-user-password \
+    --region "$REGION" \
     --user-pool-id "$POOL_ID" \
     --username "$TEST_USERNAME" \
     --password "$TEST_PASSWORD" \
