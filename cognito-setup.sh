@@ -122,8 +122,8 @@ cat > "$OUTPUT_FILE" << EOF
                     "type": "oauth2",
                     "oauth2": [
                         {
-                            "key": "redirect_uri", 
-                            "value": "https://oauth.pstmn.io/v1/browser-callback",
+                            "key": "addTokenTo",
+                            "value": "header",
                             "type": "string"
                         },
                         {
@@ -132,18 +132,43 @@ cat > "$OUTPUT_FILE" << EOF
                             "type": "string"
                         },
                         {
-                            "key": "auth_url",
+                            "key": "redirect_uri",
+                            "value": "https://oauth.pstmn.io/v1/browser-callback",
+                            "type": "string"
+                        },
+                        {
+                            "key": "authUrl",
                             "value": "${DOMAIN}/oauth2/authorize",
                             "type": "string"
                         },
                         {
-                            "key": "access_token_url",
+                            "key": "accessTokenUrl",
                             "value": "${DOMAIN}/oauth2/token",
                             "type": "string"
                         },
                         {
-                            "key": "client_id",
+                            "key": "clientId",
                             "value": "${CLIENT_ID}",
+                            "type": "string"
+                        },
+                        {
+                            "key": "usePkce",
+                            "value": true,
+                            "type": "boolean"
+                        },
+                        {
+                            "key": "pkceVerifier",
+                            "value": "",
+                            "type": "string"
+                        },
+                        {
+                            "key": "challengeAlgorithm",
+                            "value": "S256",
+                            "type": "string"
+                        },
+                        {
+                            "key": "client_authentication",
+                            "value": "body",
                             "type": "string"
                         },
                         {
@@ -169,7 +194,10 @@ cat > "$OUTPUT_FILE" << EOF
             },
             "response": []
         }
-    ]
+    ],
+    "settings": {
+        "maxRedirects": 100
+    }
 }
 EOF
 

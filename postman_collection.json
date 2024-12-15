@@ -1,10 +1,7 @@
 {
     "info": {
         "name": "Cognito Protected API (Public Client)",
-        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-        "_postman_setting": {
-            "maxRedirects": 100
-        }
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
     },
     "item": [
         {
@@ -14,8 +11,8 @@
                     "type": "oauth2",
                     "oauth2": [
                         {
-                            "key": "redirect_uri", 
-                            "value": "https://oauth.pstmn.io/v1/browser-callback",
+                            "key": "addTokenTo",
+                            "value": "header",
                             "type": "string"
                         },
                         {
@@ -24,18 +21,43 @@
                             "type": "string"
                         },
                         {
-                            "key": "auth_url",
-                            "value": "https://my-api-domain-1734221031.auth.us-east-2.amazoncognito.com/oauth2/authorize",
+                            "key": "redirect_uri",
+                            "value": "https://oauth.pstmn.io/v1/browser-callback",
                             "type": "string"
                         },
                         {
-                            "key": "access_token_url",
-                            "value": "https://my-api-domain-1734221031.auth.us-east-2.amazoncognito.com/oauth2/token",
+                            "key": "authUrl",
+                            "value": "https://my-api-domain-1734221452.auth.us-east-2.amazoncognito.com/oauth2/authorize",
                             "type": "string"
                         },
                         {
-                            "key": "client_id",
-                            "value": "1bfrjj9dhrifp1sjdvokd5u76b",
+                            "key": "accessTokenUrl",
+                            "value": "https://my-api-domain-1734221452.auth.us-east-2.amazoncognito.com/oauth2/token",
+                            "type": "string"
+                        },
+                        {
+                            "key": "clientId",
+                            "value": "1pahi2qtlqaljdaqr5dt0at3r1",
+                            "type": "string"
+                        },
+                        {
+                            "key": "usePkce",
+                            "value": true,
+                            "type": "boolean"
+                        },
+                        {
+                            "key": "pkceVerifier",
+                            "value": "",
+                            "type": "string"
+                        },
+                        {
+                            "key": "challengeAlgorithm",
+                            "value": "S256",
+                            "type": "string"
+                        },
+                        {
+                            "key": "client_authentication",
+                            "value": "body",
                             "type": "string"
                         },
                         {
@@ -61,5 +83,8 @@
             },
             "response": []
         }
-    ]
+    ],
+    "settings": {
+        "maxRedirects": 100
+    }
 }
