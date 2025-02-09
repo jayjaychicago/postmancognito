@@ -1,0 +1,77 @@
+openapi: 3.0.0
+info:
+  title: Hello World API
+  description: A simple API that returns a greeting
+  version: 1.0.0
+  contact:
+    name: API Support
+    email: support@example.com
+
+servers:
+  - url: https://api.example.com/v1
+    description: Production server
+  - url: https://dev-api.example.com/v1
+    description: Development server
+
+paths:
+  /hello:
+    get:
+      summary: Get a greeting
+      description: Returns a friendly hello message
+      operationId: getHello
+      parameters:
+        - name: name
+          in: query
+          description: Name of the person to greet
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful greeting response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Hello, World!"
+                  timestamp:
+                    type: string
+                    format: date-time
+                required:
+                  - message
+                  - timestamp
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Invalid request parameters"
+      tags:
+        - Greetings
+
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+      required:
+        - code
+        - message
+
+tags:
+  - name: Greetings
+    description: Endpoints related to greeting messages
+
+security: []
