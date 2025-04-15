@@ -8,9 +8,9 @@ info:
     email: support@example.com
 
 servers:
-  - url: https://api.example.com/v1
+  - url: https://m502ntifzc.execute-api.us-east-2.amazonaws.com/prod/prod1
     description: Production server
-  - url: https://dev-api.example.com/v1
+  - url: https://m502ntifzc.execute-api.us-east-2.amazonaws.com/prod/test1
     description: Development server
 
 paths:
