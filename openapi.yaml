@@ -69,9 +69,28 @@ components:
       required:
         - code
         - message
+  securitySchemes:
+    readOnlyApiKey:
+      type: apiKey
+      in: header
+      name: X-Read-API-Key
+      description: API key for read-only operations
+    
+    writeApiKey:
+      type: apiKey
+      in: header
+      name: X-Write-API-Key
+      description: API key for write operations
+    
+    adminApiKey:
+      type: apiKey
+      in: header
+      name: X-Admin-API-Key
+      description: API key with full administrative access
 
 tags:
   - name: Greetings
     description: Endpoints related to greeting messages
 
 security: []
+
