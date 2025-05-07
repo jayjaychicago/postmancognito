@@ -73,19 +73,17 @@ components:
     readOnlyApiKey:
       type: apiKey
       in: header
-      name: X-Read-API-Key
+      name: x-api-key
       description: API key for read-only operations
-    
     writeApiKey:
       type: apiKey
       in: header
-      name: X-Write-API-Key
+      name: x-api-key
       description: API key for write operations
-    
     adminApiKey:
       type: apiKey
       in: header
-      name: X-Admin-API-Key
+      name: x-api-key
       description: API key with full administrative access
 
 tags:
