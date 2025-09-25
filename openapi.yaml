@@ -78,12 +78,12 @@ components:
     writeApiKey:
       type: apiKey
       in: header
-      name: x-api-key
+      name: x-write-api-key
       description: API key for write operations
     adminApiKey:
       type: apiKey
       in: header
-      name: x-api-key
+      name: x-admin-api-key
       description: API key with full administrative access
 
 tags:
