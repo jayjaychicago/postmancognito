@@ -8,9 +8,9 @@ info:
     email: support@example.com
 
 servers:
-  - url: https://m502ntifzc.execute-api.us-east-2.amazonaws.com/prod/prod1
+  - url: https://djdj3urlkqoh6gnnynfx6vbprm0ylmhe.lambda-url.us-east-1.on.aws/
     description: Production server
-  - url: https://m502ntifzc.execute-api.us-east-2.amazonaws.com/prod/test1
+  - url: https://djdj3urlkqoh6gnnynfx6vbprm0ylmhe.lambda-url.us-east-1.on.aws/
     description: Development server
 
 paths:
